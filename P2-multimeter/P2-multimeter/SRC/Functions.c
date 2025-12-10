@@ -20,7 +20,7 @@ uint16_t length_of_uint(uint32_t number){
     return length;
 }
 
-bool show_number (uint16_t number,  uint8_t decimal) { //har en 10 MS wait!!!
+bool show_number (uint16_t number,  uint8_t decimal) { //10 MS wait!!!
     if (number > 999) {
         return false;
     } else {
@@ -57,7 +57,7 @@ void low_v(void) {
     uint8_t decimal = 2 - (length_of_uint((uint32_t)(low_v_i/low_v_f)));
     show_number(low_v_i,decimal);
     
-} // lösa medelvärde av 10 mätningar?
+}
 
 void hi_v(void) {
     low_led(false);
@@ -66,7 +66,7 @@ void hi_v(void) {
     uint16_t hi_v_i = hi_v_f*10;
     
     if (hi_v_i <99){
-        hi_v_i = hi_v_f * 100; // try hi_v_i = hi_v_f * 100; o se om man kan läsa under 100 mV
+        hi_v_i = hi_v_f * 100;
     }
     
     uint8_t decimal = 2 - (length_of_uint((uint32_t)(hi_v_i/hi_v_f)));
@@ -167,13 +167,13 @@ void battery(void){ //lyser alla tre punkter är batteriet bra, två mid, blinkar 
             show_decimal(false,false,false);
             _delay_ms(100);
         }
-        } else if (battery_f < 754) { // ok battery get correct value 8-9v?
+    } else if (battery_f < 754) { // ok battery get correct value 8-9v?
         show_decimal(false,true,true);
         _delay_ms(2000);
-        } else if (battery_f < 925){ // full bat
+    } else if (battery_f < 925){ // full bat
         show_decimal(true,true,true);
         _delay_ms(2000);
-        } else { // DC power
+    } else { // DC power
         show_decimal(false,false,false);
     }
 }
