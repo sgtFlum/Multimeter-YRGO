@@ -8,7 +8,7 @@
 #include "P2.h"
 
 int main(void) {
-    
+    //test
     setup_p2();
     uint32_t timer_counter = 0;
     battery();
