@@ -15,10 +15,9 @@ int main(void) {
     /*for (uint8_t i = 0; i<200; i++)  { Denna kod är till för att visa versionsnummr i 2 sekunder, denna används inte utan är endast här enligt kravspec. itsället så visas batteri nivån under uppstart.
         show_number(101,0);
     }*/
-    
     while (1) {
         
-        if (read_digital_input(PORT_D,7)==true) {
+        if (read_digital_input(PORT_D,7)==true) { /*checks pins for input and runs correct function for that input*/
             low_v();
             timer_counter=0;
             

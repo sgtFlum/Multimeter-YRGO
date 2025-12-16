@@ -11,7 +11,7 @@ void low_led(bool state) {
     write_digital_output(PORT_B,2,state);
 }
 
-uint16_t length_of_uint(uint32_t number){
+uint16_t length_of_uint(uint32_t number){ /*returns the length of a uint*/
     uint8_t length = 0;
     while(number>0){
         number = number/10;
@@ -20,7 +20,7 @@ uint16_t length_of_uint(uint32_t number){
     return length;
 }
 
-bool show_number (uint16_t number,  uint8_t decimal) { //10 MS wait!!!
+bool show_number (uint16_t number,  uint8_t decimal) { /*display function with a 10 ms wait*/
     if (number > 999) {
         return false;
     } else {
@@ -37,7 +37,7 @@ bool show_number (uint16_t number,  uint8_t decimal) { //10 MS wait!!!
     }
 }
 
-void show_decimal (bool point1, bool point2, bool point3){
+void show_decimal (bool point1, bool point2, bool point3){ /*controls the decimal points on the display*/
            write_digital_output(PORT_D,6,true);
            write_digital_output(PORT_D,5,true);
            write_digital_output(PORT_D,4,true);
@@ -49,7 +49,7 @@ void show_decimal (bool point1, bool point2, bool point3){
            write_digital_output(PORT_B,5,!point3);
 }
 
-void low_v(void) {
+void low_v(void) { /*reads and displays current from 0-5 volt*/
     low_led(true);
 
     float low_v_f = read_analogue_input(0)*(5.0/1024.0);
@@ -59,7 +59,7 @@ void low_v(void) {
     
 }
 
-void hi_v(void) {
+void hi_v(void) { /*reads and displays current from 0-35 volt*/
     low_led(false);
     
     float hi_v_f = read_analogue_input(1)*(5.0/1024.0)*(13.58/1.77);
@@ -73,7 +73,7 @@ void hi_v(void) {
     show_number(hi_v_i,decimal);
 }
 
-void low_r(void){
+void low_r(void){ /*reads and displays resistance from 0-1k ohms*/
     low_led(true);
     
     float avg_low_r = 0;
@@ -96,7 +96,7 @@ void low_r(void){
     show_number(low_r_i,decimal);
 }
 
-void hi_r(void) {
+void hi_r(void) { /*reads and displays resistance from 1k-100k ohms*/
     low_led(true);
     
     float avg_hi_r = 0;
@@ -119,7 +119,7 @@ void hi_r(void) {
     show_number(hi_r_i,decimal);
 }
 
-void buzzer(void) {
+void buzzer(void) { /*turns on the buzzer*/
     low_led(true);
     show_decimal(false,false,false);
     if (read_analogue_input(2)<32){
@@ -135,7 +135,7 @@ void buzzer(void) {
 }
 
 /*requires a counter variable in main*/
-uint32_t timer(uint32_t timer_counter) {
+uint32_t timer(uint32_t timer_counter) { /*function tat counts up using minutes and seconds*/
     low_led(false);
     
     if (timer_counter>100000) {
@@ -156,24 +156,25 @@ uint32_t timer(uint32_t timer_counter) {
     return timer_counter;
 } 
 
-void battery(void){ //lyser alla tre punkter är batteriet bra, två mid, blinkar en byt batteri
+void battery(void){ /*checks battery level and repots using the dots on the display*/
     low_led(false);
     
     float battery_f = read_analogue_input(4);
-    if (battery_f < 669) { // low batery get correct value below 8v? går o göra utan wait?
+    if (battery_f < 669) { /*low*/
         for (uint8_t i=0; i<10; i++){
             show_decimal(false,false,true);
             _delay_ms(100);
             show_decimal(false,false,false);
             _delay_ms(100);
         }
-    } else if (battery_f < 754) { // ok battery get correct value 8-9v?
+    } else if (battery_f < 754) { /*mid*/
         show_decimal(false,true,true);
         _delay_ms(2000);
-    } else if (battery_f < 925){ // full bat
+    } else if (battery_f < 925){ /*full*/
         show_decimal(true,true,true);
         _delay_ms(2000);
-    } else { // DC power
+    } else { /* DC power */
         show_decimal(false,false,false);
     }
+    show_decimal(false,false,false);
 }
